@@ -47,7 +47,7 @@ function showData() {
     html += "<td>" + element.address + "</td>";
     html += "<td>" + element.email + "</td>";
     html +=
-      '<td><button onclick = "deleteData"(' +
+      '<td><button onclick = "deleteData(' +
       index +
       ')" class="btn btn-danger">Delete</button>    <button onclick = "updateData(' +
       index +
@@ -98,4 +98,42 @@ function deleteData(index) {
   list.splice(index, 1);
   localStorage.setItem("list", JSON.stringify(list));
   showData();
+}
+
+function updateData(index) {
+  console.log("edit clicked");
+  document.getElementById("submit").style.display = "none";
+  document.getElementById("update").style.display = "block";
+
+  let list;
+  if (localStorage.getItem("list") == null) {
+    list = [];
+  } else {
+    list = JSON.parse(localStorage.getItem("list"));
+  }
+
+  document.getElementById("name").value = list[index].name;
+  document.getElementById("age").value = list[index].age;
+  document.getElementById("address").value = list[index].address;
+  document.getElementById("email").value = list[index].email;
+
+  document.querySelector("#update").onclick = function () {
+    if (dateForm() == true) {
+      list[index].name = document.getElementById("name").value;
+      list[index].age = document.getElementById("age").value;
+      list[index].address = document.getElementById("address").value;
+      list[index].email = document.getElementById("email").value;
+
+      localStorage.setItem("list", JSON.stringify(list));
+      showData();
+
+      document.getElementById("name").value = "";
+      document.getElementById("age").value = "";
+      document.getElementById("address").value = "";
+      document.getElementById("email").value = "";
+
+      document.getElementById("submit").style.display = "block";
+      document.getElementById("update").style.display = "none";
+    }
+  };
 }
